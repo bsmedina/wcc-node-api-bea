@@ -1,6 +1,5 @@
-const { response } = require("express");
 const database = require("../models");
-const tabelaArtigo = database.artigos;
+const tabelaArtigos = database.artigos;
 
 //Cria novo artigo
 exports.create = (req, res) => {
@@ -11,7 +10,7 @@ exports.create = (req, res) => {
         publicado: req.body.publicado
     };
 
-    tabelaArtigo.create(artigo)
-    .then(() => response.send("Artigo criado com sucesso"))
-    .catch(() => response.status(500).send("Ocorreu um erro ao salvar o artigo!"))
+    tabelaArtigos.create(artigo)
+    .then(() => res.send("Artigo criado com sucesso"))
+    .catch(() => res.status(500).send("Ocorreu um erro ao salvar o artigo!"))
 };

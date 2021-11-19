@@ -1,4 +1,5 @@
 module.exports = (sequelizeDatabase, Sequelize) => {
+    
     const Artigo = sequelizeDatabase.define("artigos", {
         titulo: {
             type: Sequelize.STRING
