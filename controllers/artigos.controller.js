@@ -20,4 +20,15 @@ exports.findAll = (req, res) => {
     const buscarArtigos = tabelaArtigos.findAll()
     .then((data) => res.send(data))
     .catch(() => res.status(500).send("Ocorreu um erro ao obter os artigos!"))
+
 };
+
+exports.findOne = (req, res) => {
+    const { id } = req.params;
+
+    const buscarArtigo = tabelaArtigos.findOne({
+        where: { id }
+    })
+    .then((data) => res.send(data))
+    .catch(() => res.status(500).send("Ocorreu um erro ao obter o artigo!"))
+}
