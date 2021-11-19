@@ -14,3 +14,10 @@ exports.create = (req, res) => {
     .then(() => res.send("Artigo criado com sucesso"))
     .catch(() => res.status(500).send("Ocorreu um erro ao salvar o artigo!"))
 };
+
+exports.findAll = (req, res) => {
+
+    const buscarArtigos = tabelaArtigos.findAll()
+    .then((data) => res.send(data))
+    .catch(() => res.status(500).send("Ocorreu um erro ao obter os artigos!"))
+};
