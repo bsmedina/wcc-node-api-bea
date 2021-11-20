@@ -8,7 +8,8 @@ module.exports = (sequelizeDatabase, Sequelize) => {
             type: Sequelize.STRING
         },
         publicado: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         }
     });
 
