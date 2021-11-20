@@ -77,7 +77,63 @@ exports.findOne = (req, res) => {
     .catch(() => res.status(500).send("Erro obtendo artigo"))
 }
 
-const desestruturaObj = () => {
+exports.publishedArticles = (req, res) => {
+
+    tabelaArtigos.findAll({
+        where: { publicado: true }
+    })
+    .then((data) => res.send(data))
+    .catch(() => res.status(500).send({
+        message:
+            "Não foi possível encontrar os artigos publicados"
+        })
+    );
+};
+
+exports.update = (req, res) => {
+    const updates = req.body;
+
+    const { id } = req.params;
+
+    const query = {
+        where: { id },
+        returning: true
+    };
+
+    tabelaArtigos.update(updates, query)
+        .then((data) => {
+            const linhasAtualizadas = data[0];
+            const artigoAtualizado = data[1];
+
+            if (linhasAtualizadas === 0) {
+                res.status(404).send("Não foi encontrado nenhum registro para ser atualizado");
+            } 
+            
+            return res.send(artigoAtualizado);
+        })
+        .catch(() => res.status(500).send("Ocorreu um erro ao atualizar o artigo, tente novamente!"))
+}
+
+exports.deleteAll = (req, res) => {
+
+    tabelaArtigos.destroy({ where: {}, truncate: false }) // Truncate só limpa as linhas sem deletar a estrutura de colunas da tabela
+        .then((itensDeletados) => {
+            return res.send("Foram deletados " + itensDeletados + " artigos")
+        })
+        .catch(() => res.status(500).send("Ocorreu um erro ao deletar os artigos"))
+}
+
+exports.delete = (req, res) => {
+    const {id} = req.params;
+
+    tabelaArtigos.destroy({where: {id}, truncate: false})
+        .then((itemDeletado) => {
+            return res.send("O artigo de id: " + id + " foi deletado com sucesso!")
+        })
+        .catch(() => res.status(500).send("Ocorreu um erro ao deletar o artigo"))
+}
+
+/* const desestruturaObj = () => {
     const objExemplo = { id: 1};
 
     //renomear por desestruturaçao
@@ -85,4 +141,4 @@ const desestruturaObj = () => {
 
     //atribuir valor por desestruturaçao
     const { name = "N/A"} = objExemplo;
-}
+} */
